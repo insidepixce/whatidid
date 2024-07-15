@@ -4,16 +4,32 @@
     <meta charset="UTF-8">
     <title>Stopwatch</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <nav class="navbar">
-        <a href="#" class="navbar-logo">My Website</a>
-        <div class="navbar-links">
-            <a href="/board.html">Board</a>
-            <a href="#guestbook">Guestbook</a>
-            <a href="#photopost">Photo Post</a>
-            <a href="#stopwatch">Stopwatch</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">My Website</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/board.html">Board</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/guestbook.html">Guestbook</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/photopost.html">Photo Post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stopwatch.html">Stopwatch</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
     <div id="stopwatch">
