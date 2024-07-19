@@ -1,2 +1,4 @@
 .vercel
 /angular
+/backend/node_modules
+/data 
