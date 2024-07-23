@@ -1,8 +1,8 @@
 document.getElementById('guestbookForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+    event.preventDefault();//폼 제출 기본 동작을 막음
 
-    const name = document.getElementById('guestbookName').value;
-    const message = document.getElementById('guestbookMessage').value;
+    const name = document.getElementById('guestbookName').value;//이름 저장
+    const message = document.getElementById('guestbookMessage').value;//메시지 저장 
 
     fetch('/api/guestbook', {
         method: 'POST',
@@ -13,8 +13,8 @@ document.getElementById('guestbookForm').addEventListener('submit', function(eve
     })
     .then(response => response.json())
     .then(data => {
-        displayEntries();
-        document.getElementById('guestbookForm').reset();
+        displayEntries(); //방명록 목록 갱신
+        document.getElementById('guestbookForm').reset();//폼 초기화
     })
     .catch(error => console.error('Error:', error));
 });
@@ -26,7 +26,7 @@ function displayEntries() {
             const guestbookList = document.getElementById('guestbookList');
             guestbookList.innerHTML = '';
             entries.forEach(entry => {
-                const listItem = document.createElement('li');
+                const listItem = document.createElement('li'); //기존 목록 초기화
                 listItem.innerHTML = `<strong>${entry.name}:</strong> ${entry.message} <button onclick="deleteEntry('${entry._id}')">Delete</button>`;
                 guestbookList.appendChild(listItem);
             });
@@ -40,9 +40,9 @@ function deleteEntry(id) {
     })
     .then(response => response.json())
     .then(data => {
-        displayEntries();
+        displayEntries();//방명록 목록 갱신
     })
     .catch(error => console.error('Error:', error));
 }
 
-displayEntries();
+displayEntries();// 페이지 로드 시 기존 방명록 목록 푯기 
