@@ -1,23 +1,24 @@
-let timer;
-let startTime;
+let timer; //타이머 인터벌을 저장할 변수 
+let startTime; // 타이머 시작 시간을 저장할 변수 
 let elapsedTime = 0;
 let isRunning = false;
 
 document.getElementById('startStopButton').addEventListener('click', function() {
-    if (isRunning) {
-        clearInterval(timer);
-        isRunning = false;
+    if (isRunning) { //타이머가 실행 중일 때 
+        clearInterval(timer); //타이머 정지 
+        isRunning = false;//타이머 상태 변경
         document.getElementById('startStopButton').innerText = 'Start';
-    } else {
-        startTime = Date.now() - elapsedTime;
-        timer = setInterval(updateTimer, 1000);
-        isRunning = true;
-        document.getElementById('startStopButton').innerText = 'Stop';
+    } else { //타이머가 실행중이지 않을때 
+        startTime = Date.now() - elapsedTime; // 시작 시간을 설정
+        timer = setInterval(updateTimer, 1000); //타이머 시작
+        isRunning = true;//타이머 상태 변경
+        document.getElementById('startStopButton').innerText = 'Stop'; //버튼 텍스트 변경 
     }
 });
 
+//저장 버튼 클릭 이벤트 리스너 
 document.getElementById('logButton').addEventListener('click', function() {
-    const logEntry = elapsedTime;
+    const logEntry = elapsedTime; //총 경과 시간을 저장 
     fetch('/api/stopwatch/log', {
         method: 'POST',
         headers: {
@@ -43,7 +44,7 @@ document.getElementById('saveButton').addEventListener('click', function() {
     })
     .then(response => response.json())
     .then(data => {
-        alert('Total time saved!');
+        alert('총 시간이 저장되었습니다!');//저장 완료 알람 
     })
     .catch(error => console.error('Error:', error));
 });
