@@ -1,6 +1,6 @@
 document.getElementById('boardForm').addEventListener('submit', function(event) {
     event.preventDefault();
-
+ㄷ 
     const title = document.getElementById('boardTitle').value;
     const content = document.getElementById('boardContent').value;
 
