@@ -45,4 +45,7 @@ function deleteEntry(id) {
     .catch(error => console.error('Error:', error));
 }
 
-displayEntries();// 페이지 로드 시 기존 방명록 목록 푯기 
+displayEntries();// 페이지 로드 시 기존 방명록 목록 표시
+
+
+
