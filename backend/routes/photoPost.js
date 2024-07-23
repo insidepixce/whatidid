@@ -13,3 +13,13 @@ router.post('/', async (req, res) => {
     }
 });
 
+//모든 사진 게시물들을 불러오는 코드 
+router.get('/', async (req, res) => {
+    try {
+        const photoPosts = await PhotoPost.find();
+        res.send(photoPosts);
+    } catch (error) {
+        res.status(500).send({ error: '사진 게시물을 불러오는데 실패하였습니다' });
+    }
+});
+module.exports = router; 
