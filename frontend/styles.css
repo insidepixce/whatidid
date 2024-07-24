@@ -1,3 +1,4 @@
+/* 구글 폰트 링크 */
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
 
 body {
@@ -7,6 +8,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: url('https://github.com/user-attachments/assets/a0ff6086-ec65-493f-995b-231a7d78ab3c');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 h1 {
@@ -33,8 +39,8 @@ button {
 }
 
 button:hover {
-    background-color:#fffacd;
-    color:black;
+    background-color: #f0e68c;
+    color: black;
 }
 
 ul {
@@ -61,15 +67,10 @@ li button {
     border: none;
     border-radius: 3px;
     cursor: pointer;
-    width: 100px;  /* 버튼의 너비를 200픽셀로 설정 */
-    height: 50px; 
 }
 
 li button:hover {
     background-color: #CC0000;
-    width: 100px;  /* 버튼의 너비를 200픽셀로 설정 */
-    height: 50px; 
-    
 }
 
 img {
@@ -88,17 +89,9 @@ img {
     margin: 20px 0;
 }
 
-body {
-    background-image: url('https://github.com/user-attachments/assets/a0ff6086-ec65-493f-995b-231a7d78ab3c');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-}
-
 .navbar {
-    background-color:#fffacd;
-    border-radius:20px;
+    background-color: #fffacd;
+    border-radius: 20px;
     padding: 10px;
 }
 
@@ -109,6 +102,6 @@ body {
 }
 
 .navbar .nav-item .nav-link:hover {
-    background-color: #f0e68c; /*호버되었을떄 배경색*/
-    color: #000; /*텍스트 색상*/
+    background-color: #f0e68c;
+    color: #000;
 }
