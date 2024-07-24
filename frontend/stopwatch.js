@@ -4,59 +4,110 @@ let time = 0;
 let deleteLogId = null;  // 삭제할 로그 ID 저장
 
 // 시작/정지 버튼 클릭 이벤트 핸들러
-document.getElementById('startStopButton').addEventListener('click', () => {
-    if (running) {
-        clearInterval(timer);  // 타이머 정지
-        document.getElementById('startStopButton').textContent = 'Start';  // 버튼 텍스트 변경
-    } else {
-        timer = setInterval(() => {
-            time++;
-            document.getElementById('timer').textContent = new Date(time * 1000).toISOString().substr(11, 8);  // 시간 업데이트
-        }, 1000);  // 1초마다 업데이트
-        document.getElementById('startStopButton').textContent = 'Stop';  // 버튼 텍스트 변경
-    }
-    running = !running;  // 상태 변경
-});
+document.addEventListener('DOMContentLoaded', (event) => {
+    const startStopButton = document.getElementById('startStopButton');
+    const logButton = document.getElementById('logButton');
+    const saveButton = document.getElementById('saveButton');
+    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+    const cancelDeleteButton = document.getElementById('cancelDeleteButton');
 
-// 리셋 버튼 클릭 이벤트 핸들러
-document.getElementById('resetButton').addEventListener('click', () => {
-    clearInterval(timer);  // 타이머 정지
-    running = false;
-    time = 0;
-    document.getElementById('timer').textContent = '00:00:00';  // 시간 초기화
-    document.getElementById('startStopButton').textContent = 'Start';  // 버튼 텍스트 변경
-});
-
-// 저장 버튼 클릭 이벤트 핸들러
-document.getElementById('saveButton').addEventListener('click', () => {
-    if (!running && time > 0) {
-        const memoInput = prompt("Enter a memo for this log:");
-        const formData = new FormData();
-        formData.append('logEntry', time);
-        formData.append('memo', memoInput);
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*';
-        fileInput.onchange = () => {
-            formData.append('image', fileInput.files[0]);
-            fetch('/api/stopwatch/log', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                displayLogEntries();
-            })
-            .catch(error => console.error('Error:', error));
-        };
-        fileInput.click();
+    if (startStopButton) {
+        startStopButton.addEventListener('click', () => {
+            if (running) {
+                clearInterval(timer);  // 타이머 정지
+                startStopButton.textContent = 'Start';  // 버튼 텍스트 변경
+            } else {
+                timer = setInterval(() => {
+                    time++;
+                    document.getElementById('timer').textContent = new Date(time * 1000).toISOString().substr(11, 8);  // 시간 업데이트
+                }, 1000);  // 1초마다 업데이트
+                startStopButton.textContent = 'Stop';  // 버튼 텍스트 변경
+            }
+            running = !running;  // 상태 변경
+        });
     }
+
+    if (logButton) {
+        logButton.addEventListener('click', () => {
+            if (!running && time > 0) {
+                const memoInput = prompt("Enter a memo for this log:");
+                const formData = new FormData();
+                formData.append('logEntry', time);
+                formData.append('memo', memoInput);
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'image/*';
+                fileInput.onchange = () => {
+                    formData.append('image', fileInput.files[0]);
+                    fetch('/api/stopwatch/log', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        displayLogEntries();
+                    })
+                    .catch(error => console.error('Error:', error));
+                };
+                fileInput.click();
+            }
+        });
+    }
+
+    if (saveButton) {
+        saveButton.addEventListener('click', () => {
+            if (!running && time > 0) {
+                fetch('/api/stopwatch/log', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ logEntry: time })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayLogEntries();
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    }
+
+    if (confirmDeleteButton) {
+        confirmDeleteButton.addEventListener('click', () => {
+            deleteLog();
+        });
+    }
+
+    if (cancelDeleteButton) {
+        cancelDeleteButton.addEventListener('click', () => {
+            document.getElementById('deleteConfirmBox').style.display = 'none';
+        });
+    }
+
+    // 페이지 로드 시 로그 엔트리 표시
+    displayLogEntries();
 });
 
 // 로그 시간과 현재 시간을 표시하는 함수
 function displayLogEntries() {
     fetch('/api/stopwatch/log')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(entries => {
             if (Array.isArray(entries)) {
                 const logList = document.getElementById('logList');
@@ -95,9 +146,15 @@ function updateMemo(logId, memo) {
         },
         body: JSON.stringify({ memo })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('네트워크 서버가 안좋아요 !');
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Memo updated:', data);
+        displayLogEntries();
     })
     .catch(error => console.error('Error:', error));
 }
@@ -107,7 +164,12 @@ function deleteMemo(logId) {
     fetch(`/api/stopwatch/log/${logId}/memo`, {
         method: 'DELETE'
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Memo deleted:', data);
         displayLogEntries();  // 메모 삭제 후 로그 목록 갱신
@@ -126,7 +188,12 @@ function deleteLog() {
     fetch(`/api/stopwatch/log/${deleteLogId}`, {
         method: 'DELETE'
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Log deleted:', data);
         document.getElementById('deleteConfirmBox').style.display = 'none';
@@ -134,17 +201,3 @@ function deleteLog() {
     })
     .catch(error => console.error('Error:', error));
 }
-
-// 삭제 확인 박스 이벤트 핸들러
-document.getElementById('confirmDeleteButton').addEventListener('click', () => {
-    deleteLog();
-});
-
-document.getElementById('cancelDeleteButton').addEventListener('click', () => {
-    document.getElementById('deleteConfirmBox').style.display = 'none';
-});
-
-// 페이지 로드 시 로그 엔트리 표시
-window.onload = () => {
-    displayLogEntries();
-};
