@@ -70,15 +70,17 @@ li {
 li button {
     font-size: 0.8em;
     padding: 5px 10px;
-    background-color: #FF0000;
-    color: white;
+    background-color: #fffacd;
+    color: black;
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    width: auto; 
+    min-width: 10px;
 }
 
 li button:hover {
-    background-color: #CC0000;
+    background-color: #fffacd;
 }
 
 img {
@@ -151,4 +153,12 @@ img {
 .semi-title {
     font-size: 20px;
     text-align: center;
+}
+
+#board {
+    width: 50%;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f7f3;
 }
