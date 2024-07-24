@@ -15,7 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url('https://github.com/user-attachments/assets/a0ff6086-ec65-493f-995b-231a7d78ab3c');
+    background-image: url('background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -35,19 +35,22 @@ input, textarea, button {
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 5px !important;
 }
 
 button {
-    background-color: #fffacd;
+    background-color: #f9f7f3;
     color: black;
-    border: none;
     cursor: pointer;
+    border: #f9f7f3;
+    border-radius : 15px !important;
+    margin : 5px !important;
 }
 
 button:hover {
-    background-color: #f0e68c;
+    background-color:#f9f7f3;
     color: black;
+
 }
 
 ul {
@@ -94,6 +97,11 @@ img {
 #timer {
     font-size: 2em;
     margin: 20px 0;
+    text-align: center;
+}
+
+#startStopButton #logButton #saveButton {
+    border-radius: 30px;
 }
 
 .navbar {
@@ -111,4 +119,9 @@ img {
 .navbar .nav-item .nav-link:hover {
     background-color: #f0e68c;
     color: #000;
+}
+
+.semi-title {
+    font-size: 20px;
+    text-align: center;
 }
