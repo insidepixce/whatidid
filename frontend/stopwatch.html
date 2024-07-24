@@ -32,14 +32,30 @@
         </div>
     </div>
 </nav>
+
 <div id="stopwatch">
     <h1 class="semi-title"><br>Study Timer</h1>
     <div id="timer">00:00:00</div>
     <button id="startStopButton">Start</button>
     <button id="logButton">Log Time</button>
     <button id="saveButton">Save Time</button>
-    <div id="logs"></div>
-    <ul id="logList"></ul>
+</div>
+
+<div id="logListContainer">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Date</th>
+                <th scope="col">Time</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="logList">
+            <!-- JavaScript로 로그 항목이 여기에 추가됩니다. -->
+        </tbody>
+    </table>
 </div>
 
 <div id="deleteConfirmBox" class="modal">

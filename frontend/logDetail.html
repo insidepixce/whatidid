@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log Details</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">studywork</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/board.html">Board</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/guestbook.html">Guestbook</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/photopost.html">Photo Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/stopwatch.html">Stopwatch</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="logDetailContainer">
+    <h2 id="logTitle">Log Title</h2>
+    <p id="logDate">Date: </p>
+    <p id="logTime">Time: </p>
+    <p id="logStudyTime">Study Time: </p>
+    <div id="logMemo">Memo: </div>
+    <div id="logImage"></div>
+    <button id="deleteMemoButton" class="btn btn-danger" style="display: none;" onclick="deleteMemo()">Delete Memo</button>
+    <button onclick="backToList()">Back to List</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const logId = urlParams.get('id');
+        if (logId) {
+            fetchLogDetails(logId);
+        }
+    });
+
+    function fetchLogDetails(logId) {
+        fetch(`/api/stopwatch/log/${logId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(entry => {
+                document.getElementById('logTitle').textContent = entry.title || 'No Title';
+                document.getElementById('logDate').textContent = `Date: ${new Date(entry.logEntry).toDateString()}`;
+                document.getElementById('logTime').textContent = `Time: ${new Date(entry.logEntry).toISOString().substr(11, 8)}`;
+                document.getElementById('logStudyTime').textContent = `Study Time: ${new Date(entry.logEntry).toISOString().substr(11, 8)}`;
+                document.getElementById('logMemo').textContent = `Memo: ${entry.memo || 'No Memo'}`;
+                document.getElementById('logImage').innerHTML = entry.image ? `<img src="/uploads/${entry.image}" alt="Log image" width="100">` : 'No Image';
+                if (entry.memo) {
+                    document.getElementById('deleteMemoButton').style.display = 'block';
+                    document.getElementById('deleteMemoButton').setAttribute('data-log-id', logId);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function deleteMemo() {
+        const logId = document.getElementById('deleteMemoButton').getAttribute('data-log-id');
+        if (confirm("Are you sure you want to delete this memo?")) {
+            fetch(`/api/stopwatch/log/${logId}/memo`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                fetchLogDetails(logId);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    }
+
+    function backToList() {
+        window.location.href = '/stopwatch.html';
+    }
+</script>
+
+</body>
+</html>
