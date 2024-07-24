@@ -1,96 +1,99 @@
-let timer; //타이머 인터벌을 저장할 변수 
-let startTime; // 타이머 시작 시간을 저장할 변수 
-let elapsedTime = 0;
-let isRunning = false;
+let timer;
+let running = false;
+let time = 0;
 
-document.getElementById('startStopButton').addEventListener('click', function() {
-    if (isRunning) { //타이머가 실행 중일 때 
-        clearInterval(timer); //타이머 정지 
-        isRunning = false;//타이머 상태 변경
-        document.getElementById('startStopButton').innerText = 'Start';
-    } else { //타이머가 실행중이지 않을때 
-        startTime = Date.now() - elapsedTime; // 시작 시간을 설정
-        timer = setInterval(updateTimer, 1000); //타이머 시작
-        isRunning = true;//타이머 상태 변경
-        document.getElementById('startStopButton').innerText = 'Stop'; //버튼 텍스트 변경 
+// 시작/정지 버튼 클릭 이벤트 핸들러
+document.getElementById('startStopButton').addEventListener('click', () => {
+    if (running) {
+        clearInterval(timer);  // 타이머 정지
+        document.getElementById('startStopButton').textContent = 'Start';  // 버튼 텍스트 변경
+    } else {
+        timer = setInterval(() => {
+            time++;
+            document.getElementById('timer').textContent = new Date(time * 1000).toISOString().substr(11, 8);  // 시간 업데이트
+        }, 1000);  // 1초마다 업데이트
+        document.getElementById('startStopButton').textContent = 'Stop';  // 버튼 텍스트 변경
+    }
+    running = !running;  // 상태 변경
+});
+
+// 리셋 버튼 클릭 이벤트 핸들러
+document.getElementById('resetButton').addEventListener('click', () => {
+    clearInterval(timer);  // 타이머 정지
+    running = false;
+    time = 0;
+    document.getElementById('timer').textContent = '00:00:00';  // 시간 초기화
+    document.getElementById('startStopButton').textContent = 'Start';  // 버튼 텍스트 변경
+});
+
+// 저장 버튼 클릭 이벤트 핸들러
+document.getElementById('saveButton').addEventListener('click', () => {
+    if (!running && time > 0) {
+        fetch('/api/stopwatch/log', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ logEntry: time }),  // 로그 데이터 전송
+        })
+        .then(response => response.json())
+        .then(data => {
+            const logDiv = document.createElement('div');
+            const currentTime = new Date();
+            logDiv.innerHTML = `
+                <div>Logged time: ${new Date(time * 1000).toISOString().substr(11, 8)}</div>
+                <div>Current time: ${currentTime.toISOString().substr(11, 8)}</div>
+            `;  // 로그 표시
+            document.getElementById('logs').appendChild(logDiv);  // 로그 추가
+        })
+        .catch(error => console.error('Error:', error));  // 오류 처리
     }
 });
 
-//저장 버튼 클릭 이벤트 리스너 
-document.getElementById('logButton').addEventListener('click', function() {
-    const logEntry = elapsedTime; //총 경과 시간을 저장 
-    fetch('/api/stopwatch/log', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ logEntry }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        displayLogEntries();
-    })
-    .catch(error => console.error('Error:', error));
-});
-
-document.getElementById('saveButton').addEventListener('click', function() {
-    const totalTime = elapsedTime;
-    fetch('/api/stopwatch/save', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ totalTime }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert('총 시간이 저장되었습니다!');//저장 완료 알람 
-    })
-    .catch(error => console.error('Error:', error));
-});
-
-function updateTimer() {
-    elapsedTime = Date.now() - startTime;
-    const time = new Date(elapsedTime);
-    const hours = String(time.getUTCHours()).padStart(2, '0');
-    const minutes = String(time.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(time.getUTCSeconds()).padStart(2, '0');
-    document.getElementById('timer').innerText = `${hours}:${minutes}:${seconds}`;
-}
-
+// 로그 시간과 현재 시간을 표시하는 함수
 function displayLogEntries() {
     fetch('/api/stopwatch/log')
         .then(response => response.json())
         .then(entries => {
-            const logList = document.getElementById('logList');
-            logList.innerHTML = '';
-            entries.forEach(entry => {
-                const time = new Date(entry.logEntry);
-                const hours = String(time.getUTCHours()).padStart(2, '0');
-                const minutes = String(time.getUTCMinutes()).padStart(2, '0');
-                const seconds = String(time.getUTCSeconds()).padStart(2, '0');
-                const listItem = document.createElement('li');
-                listItem.innerText = `${hours}:${minutes}:${seconds}`;
-                logList.appendChild(listItem);
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-function loadTimer() {
-    fetch('/api/stopwatch/total')
-        .then(response => response.json())
-        .then(data => {
-            if (data.totalTime) {
-                elapsedTime = data.totalTime;
-                startTime = Date.now() - elapsedTime;
-                updateTimer();
+            if (Array.isArray(entries)) {
+                const logList = document.getElementById('logList');
+                logList.innerHTML = '';
+                entries.forEach(entry => {
+                    const logTime = new Date(entry.logEntry * 1000);  // 초 단위를 밀리초로 변환
+                    const currentTime = new Date();  // 현재 시간
+                    const hours = String(logTime.getUTCHours()).padStart(2, '0');
+                    const minutes = String(logTime.getUTCMinutes()).padStart(2, '0');
+                    const seconds = String(logTime.getUTCSeconds()).padStart(2, '0');
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <div>Log time: ${hours}:${minutes}:${seconds}</div>
+                        <div>Current time: ${currentTime.toISOString().substr(11, 8)}</div>
+                    `;
+                    logList.appendChild(listItem);
+                });
+            } else {
+                console.error('Error: entries is not an array');
             }
         })
         .catch(error => console.error('Error:', error));
 }
 
-window.onload = function() {
-    loadTimer();
+// 메모 추가 버튼 클릭 이벤트 핸들러
+document.getElementById('addMemoButton').addEventListener('click', () => {
+    const memoInput = document.getElementById('memoInput');
+    const memoText = memoInput.value.trim();
+    if (memoText) {
+        const logList = document.getElementById('logList');
+        const listItem = document.createElement('li');
+        listItem.innerText = `Memo: ${memoText}`;
+        logList.appendChild(listItem);
+        memoInput.value = '';  // 입력 필드 초기화
+    } else {
+        alert('Please enter a memo.');
+    }
+});
+
+// 페이지 로드 시 로그 엔트리 표시
+window.onload = () => {
     displayLogEntries();
 };

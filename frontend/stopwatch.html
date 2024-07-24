@@ -8,38 +8,43 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">studywork</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/board.html">Board</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/guestbook.html">Guestbook</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/photopost.html">Photo Post</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/stopwatch.html">Stopwatch</a>
-                    </li>
-                </ul>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">studywork</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/board.html">Board</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/guestbook.html">Guestbook</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/photopost.html">Photo Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/stopwatch.html">Stopwatch</a>
+                </li>
+            </ul>
         </div>
-    </nav>
-    <div id="stopwatch">
-        <h1 class="semi-title"><br>Study Timer</h1>
-        <div id="timer">00:00:00</div>
-        <button id="startStopButton">Start</button>
-        <button id="logButton">Log Time</button>
-        <button id="saveButton">Save Time</button>
-        <ul id="logList"></ul>
     </div>
-    <script src="stopwatch.js"></script>
+</nav>
+<div id="stopwatch">
+    <h1 class="semi-title"><br>Study Timer</h1>
+    <div id="timer">00:00:00</div>
+    <button id="startStopButton">Start</button>
+    <button id="logButton">Log Time</button>
+    <button id="saveButton">Save Time</button>
+    <div id="logs"></div>
+    <input type="text" id="memoInput" placeholder="Enter memo">
+    <button id="addMemoButton">Add Memo</button>
+    <ul id="logList"></ul>
+    <ul id="logList">
+    </ul>
+</div>
+<script src="stopwatch.js"></script>
 </body>
 </html>
