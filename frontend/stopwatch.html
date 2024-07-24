@@ -39,12 +39,17 @@
     <button id="logButton">Log Time</button>
     <button id="saveButton">Save Time</button>
     <div id="logs"></div>
-    <input type="text" id="memoInput" placeholder="Enter memo">
-    <button id="addMemoButton">Add Memo</button>
     <ul id="logList"></ul>
-    <ul id="logList">
-    </ul>
 </div>
+
+<div id="deleteConfirmBox" class="modal">
+    <div class="modal-content">
+        <p>삭제된 로그는 복구가 불가능합니다. 진짜로 삭제하겠습니까?</p>
+        <button id="confirmDeleteButton">예</button>
+        <button id="cancelDeleteButton">아니요</button>
+    </div>
+</div>
+
 <script src="stopwatch.js"></script>
 </body>
 </html>
