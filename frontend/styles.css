@@ -1,8 +1,15 @@
 /* 구글 폰트 링크 */
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
 
+.gowun-batang-regular {
+    font-family: "Gowun Batang", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+  
+
 body {
-    font-family: 'Gowun Batang', serif;
+    font-family: 'Gowun Batang', serif !important;
     margin: 0;
     padding: 0;
     display: flex;
