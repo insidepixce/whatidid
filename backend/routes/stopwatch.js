@@ -19,7 +19,7 @@ router.get('/log', async (req, res) => {
         const logs = await Stopwatch.find();
         res.send(logs);
     } catch (error) {
-        res.status(500).send({ error: 'Failed to fetch logs' });
+        res.status(500).send({ message: '서버 에러',error: error.message });
     }
 });
 
