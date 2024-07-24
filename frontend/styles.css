@@ -93,3 +93,15 @@ body {
     background-position: center center;
     background-attachment: fixed;
 }
+
+.navbar {
+    background-color:#fffacd;
+    border-radius:20px;
+    padding: 10px;
+}
+
+.navbar .nav-item .nav-link {
+    color: #333;
+    border-radius: 10px;
+    padding: 8px 15px;
+}
