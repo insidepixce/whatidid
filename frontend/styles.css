@@ -85,3 +85,11 @@ img {
     font-size: 2em;
     margin: 20px 0;
 }
+
+body {
+    background-image: url('https://github.com/user-attachments/assets/a0ff6086-ec65-493f-995b-231a7d78ab3c');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
