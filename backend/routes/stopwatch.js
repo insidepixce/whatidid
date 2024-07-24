@@ -1,46 +1,71 @@
 const express = require('express');
+const multer = require('multer');
 const router = express.Router();
 const Stopwatch = require('../models/Stopwatch');
 
-// 로그 저장
-router.post('/log', async (req, res) => {
+// multer 설정
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+const upload = multer({ storage });
+
+// 로그 저장 엔드포인트
+router.post('/log', upload.single('image'), async (req, res) => {
     try {
-        const log = new Stopwatch(req.body);
+        const log = new Stopwatch({
+            logEntry: req.body.logEntry,
+            memo: req.body.memo,
+            image: req.file ? req.file.filename : null
+        });
         await log.save();
-        res.status(201).send(log);
+        res.json(log);
     } catch (error) {
-        res.status(500).send({ error: 'Failed to save log' });
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 });
 
-// 모든 로그 가져오기
+// 로그 업데이트 엔드포인트 (메모 업데이트)
+router.put('/log/:id', async (req, res) => {
+    try {
+        const log = await Stopwatch.findByIdAndUpdate(req.params.id, { memo: req.body.memo }, { new: true });
+        res.json(log);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+});
+
+// 메모 삭제 엔드포인트
+router.delete('/log/:id/memo', async (req, res) => {
+    try {
+        const log = await Stopwatch.findByIdAndUpdate(req.params.id, { memo: '' }, { new: true });
+        res.json(log);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+});
+
+// 로그 삭제 엔드포인트
+router.delete('/log/:id', async (req, res) => {
+    try {
+        await Stopwatch.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Log deleted' });
+    } catch (error) {
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+});
+
+// 로그 조회 엔드포인트
 router.get('/log', async (req, res) => {
     try {
-        const logs = await Stopwatch.find();
-        res.send(logs);
+        const logs = await Stopwatch.find({});
+        res.json(logs);
     } catch (error) {
-        res.status(500).send({ message: '서버 에러',error: error.message });
-    }
-});
-
-// 총 시간 저장
-router.post('/save', async (req, res) => {
-    try {
-        const { totalTime } = req.body;
-        const result = await Stopwatch.updateOne({}, { totalTime }, { upsert: true });
-        res.send({ message: 'Total time saved', result });
-    } catch (error) {
-        res.status(500).send({ error: 'Failed to save total time' });
-    }
-});
-
-// 총 시간 가져오기
-router.get('/total', async (req, res) => {
-    try {
-        const total = await Stopwatch.findOne().select('totalTime');
-        res.send(total);
-    } catch (error) {
-        res.status(500).send({ error: 'Failed to fetch total time' });
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 });
 
