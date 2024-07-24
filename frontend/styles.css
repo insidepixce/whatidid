@@ -57,7 +57,7 @@ ul {
 }
 
 li {
-    background-color: white;
+    background-color: none;
     margin: 10px 0;
     padding: 10px;
     border: 1px solid #ccc;
@@ -108,14 +108,14 @@ img {
     padding: 5px 20px; /* 상하 간격을 줄이고 좌우 간격을 늘림 */
     margin: 20px 0; /* 네브바 위아래에 공간 추가 */
     height: 50px; /* 네브바의 높이 조절 */
-    width: 100%; /* 네브바를 가로로 길게 */
+    width: 50%; /* 네브바를 가로로 길게 */
     display: flex;
     justify-content: center; /* 네브바 항목을 중앙으로 정렬 */
     align-items: center;
 }
 
 .navbar-brand {
-    margin-right: center; /* 브랜드를 왼쪽 정렬 */
+    margin-right: cv; /* 브랜드를 왼쪽 정렬 */
 }
 
 .navbar-nav {
@@ -124,24 +124,28 @@ img {
     align-items: center;
     justify-content: center; /* 네브바 항목들을 중앙 정렬 */
     flex: 1; /* 네브바 항목들이 전체 너비를 차지하도록 설정 */
+    background-color: none !important;
 }
 
 .navbar .nav-item {
     margin: 0 10px; /* 네브바 아이템 간의 간격 조정 */
     border: none !important;
     display: flex !important;
+    background-color: none !important;
 }
 
 .navbar .nav-item .nav-link {
     color: #333;
     padding: 5px 10px; /* 링크의 상하 간격을 줄임 */
     border: none !important;
+    background-color: none !important;
 }
 
 .navbar .nav-item .nav-link:hover {
     background-color: #f0e68c;
     color: #000;
     align-items: center !important;
+    background-color: none !important;
 }
 
 .semi-title {
