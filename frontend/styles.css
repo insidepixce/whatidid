@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -25,14 +27,14 @@ input, textarea, button {
 }
 
 button {
-    background-color: #007BFF;
+    background-color: #fffacd;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color:#fffacd;
 }
 
 ul {
