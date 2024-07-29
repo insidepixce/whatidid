@@ -68,21 +68,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'DELETE'
                 })
                 .then(response => {
-                    console.log('Fetch response received'); // Fetch 응답이 도착했는지 확인
+                    console.log('패치 응답이 도착했습니다'); // Fetch 응답이 도착했는지 확인
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error('네트워크 응답이 제대로 안되어있네요ㅎ');
                     }
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Log deleted successfully', data); // 삭제 성공 메시지
+                    console.log('로그가 정상적으로 삭제되었습니다 ', data); // 삭제 성공 메시지
                     document.getElementById('deleteConfirmBox').style.display = 'none';
                     deleteLogId = null;
                     displayLogEntries();
                 })
                 .catch(error => console.error('Error:', error));
             } else {
-                console.error('deleteLogId is not set'); // deleteLogId가 설정되지 않은 경우 메시지 출력
+                console.error('deleteLogID가 제대로 설정되지 않았습니다 '); // deleteLogId가 설정되지 않은 경우 메시지 출력
             }
         });
     } else {
