@@ -58,6 +58,29 @@
     </table>
 </div>
 
+<!-- 로그 추가 모달 -->
+<div id="logModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="logForm" enctype="multipart/form-data">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="logEntry">Log Entry</label>
+            <textarea id="logEntry" name="logEntry" required></textarea>
+
+            <label for="memo">Memo</label>
+            <textarea id="memo" name="memo"></textarea>
+
+            <label for="image">Image</label>
+            <input type="file" id="image" name="image">
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<!-- 삭제 확인 모달 -->
 <div id="deleteConfirmBox" class="modal">
     <div class="modal-content">
         <p>삭제된 로그는 복구가 불가능합니다. 진짜로 삭제하겠습니까?</p>
