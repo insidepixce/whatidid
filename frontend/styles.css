@@ -110,7 +110,7 @@ img {
     padding: 5px 20px; /* 상하 간격을 줄이고 좌우 간격을 늘림 */
     margin: 20px 0; /* 네브바 위아래에 공간 추가 */
     height: 50px; /* 네브바의 높이 조절 */
-    width: 50%; /* 네브바를 가로로 길게 */
+    width: 80%; /* 네브바를 가로로 길게 */
     display: flex;
     justify-content: center; /* 네브바 항목을 중앙으로 정렬 */
     align-items: center;
