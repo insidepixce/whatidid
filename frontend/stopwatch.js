@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const openModalButton = document.getElementById('openModalButton');
     const closeModalSpan = document.querySelector('.close');
     const logForm = document.getElementById('logForm');
-    let deleteLogId = null; // deleteLogId 초기화
+    let deleteLogId = null; // deleteLogId 초기화 
+
 
     // 모달 열기
     openModalButton.addEventListener('click', () => {
@@ -34,12 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('네트워크 응답이 정상적이지 않습니다');
             }
             return response.json();
         })
         .then(data => {
-            console.log('Log created successfully', data);
+            console.log('로그가 정상적으로 생성되었습니다', data);
             modal.style.display = 'none';
             logForm.reset();
             displayLogEntries(); // 새로운 로그를 표시하는 함수 호출
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.delete-log-button').forEach(button => {
         button.addEventListener('click', () => {
             deleteLogId = button.getAttribute('data-log-id'); // 버튼에 설정된 로그 ID를 가져옴
-            console.log(`deleteLogId set to: ${deleteLogId}`); // 설정된 deleteLogId 값 로그 출력
+            console.log(`deleteLogId 설정: ${deleteLogId}`); // 설정된 deleteLogId 값 로그 출력
             document.getElementById('deleteConfirmBox').style.display = 'block'; // 확인 박스 표시
         });
     });
@@ -59,11 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // 삭제 확인 버튼 클릭 시 삭제 요청
     const confirmDeleteButton = document.getElementById('confirmDeleteButton');
     if (confirmDeleteButton) {
-        console.log('Button found and event listener is being added.');
+        console.log('버튼 클릭이 감지되었습니다');
         confirmDeleteButton.addEventListener('click', () => {
             console.log('Button clicked'); // 클릭 이벤트가 발생하는지 확인
             if (deleteLogId) {
-                console.log(`Attempting to delete log with id: ${deleteLogId}`); // deleteLogId 값 확인
+                console.log(`다음의 deleteLogID로 삭제를 시도합니다: ${deleteLogId}`); // deleteLogId 값 확인
                 fetch(`/api/stopwatch/log/${deleteLogId}`, {
                     method: 'DELETE'
                 })
