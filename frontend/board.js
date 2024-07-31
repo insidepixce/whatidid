@@ -16,8 +16,8 @@ document.getElementById('boardForm').addEventListener('submit', function(event) 
     .then(response => response.json())
     .then(data => {
         
-        displayEntries();//게시물 목록 갱신
-        document.getElementById('boardForm').reset(); //폼을 초기화
+        displayEntries();//새로운 게시물들을 포함한 목록을 갱신
+        document.getElementById('boardForm').reset(); //입력폼을 초기화
     })
     .catch(error => console.error('Error:', error));
 });
@@ -38,17 +38,20 @@ function displayEntries() {
         .catch(error => console.error('Error:', error));
 }
 
+
+//게시물 삭제 함수 
 function deleteEntry(id) {
     fetch(`/api/board/${id}`, {
         method: 'DELETE',
-    })
+    }) //게시물 삭제 API 요청 
     .then(response => response.json())
     .then(data => {
-        displayEntries();//게시물 목록 갱신 
+        displayEntries();//삭제된 게시물을 반영한 총 게시물 목록 갱신 
     })
     .catch(error => console.error('Error:', error));
 }
 
+//게시물 수정 함수 
 function editEntry(id) {
     fetch(`/api/board/${id}`)
         .then(response => response.json())
@@ -60,4 +63,4 @@ function editEntry(id) {
         .catch(error => console.error('Error:', error));
 }
 
-displayEntries(); //페이지 로드시 게시물 목록 표시 
+displayEntries(); //페이지 로드시 자동적으로 게시물 목록 표시 
