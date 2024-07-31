@@ -30,19 +30,19 @@ router.post('/log', upload.single('image'), async (req, res) => {//파일 업로
 });
 
 // 로그 업데이트 엔드포인트 (메모 업데이트)
-router.put('/log/:id', async (req, res) => {
-    console.log(`Updating memo for log ID: ${req.params.id} with memo: ${req.body.memo}`);
-    try {
-        const log = await Stopwatch.findByIdAndUpdate(req.params.id, { memo: req.body.memo }, { new: true });
-        if (!log) {
+router.put('/log/:id', async (req, res) => {//메모 업데이트 엔드포인트 
+    console.log(`Updating memo for log ID: ${req.params.id} with memo: ${req.body.memo}`);//업데이트할 로그의 id와 업데이트할 메모를 콘솔에 출력해주기 
+    try { //요청으로 전달된 id값을 가진 로그를 찾아 메모 업데이트 
+        const log = await Stopwatch.findByIdAndUpdate(req.params.id, { memo: req.body.memo }, { new: true });//요청으로 전달된 id값을 가진 로그를 찾아 메모 업데이트  
+        if (!log) {//업데이트할 로그가 없을때 404에러와 함께 로그가 발견되지 않았어요 메시지 출력 
             console.log('로그가 발견되지 않았어요');
-            return res.status(404).json({ message: '로그가 발견되지 않았어용 ' });
+            return res.status(404).json({ message: '로그가 발견되지 않았어용 ' });//업데이트된 로그를 반환
         }
-        console.log('로그가 업데이트되었어요 :', log);
-        res.json(log);
-    } catch (error) {
+        console.log('로그가 업데이트되었어요 :', log);//업데이트 된 로그를 콘솔에 출력((*이는 삭제해야 할 기능)
+        res.json(log);//업데이트한 로그를 반환
+    } catch (error) { //에러 발생시 메세지 출력과 함꼐 에러 메세지 출력하기 
         console.error('메모를 업데이트하는데 문제가 있어요:', error);
-        res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        res.status(500).json({ message: '서버에 오류가 있어요', error: error.message });//서버에 에러가 있을때는 서버에 오류가 있다고 말해주기 
     }
 });
 
