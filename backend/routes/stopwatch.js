@@ -4,29 +4,29 @@ const router = express.Router();
 const Stopwatch = require('../models/Stopwatch');
 
 // multer 설정
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
+const storage = multer.diskStorage({ //파일 저장 경로 및 파일명 설정 
+    destination: (req, file, cb) => { //파일 저장 경로 설정 
+        cb(null, 'uploads/');//파일 저장 폴더 설정 
     },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+    filename: (req, file, cb) => {//파일명 설정 
+        cb(null, Date.now() + '-' + file.originalname);//파일명  : 날짜_파일명
     }
 });
 const upload = multer({ storage });
 
 // 로그 저장 엔드포인트
-router.post('/log', upload.single('image'), async (req, res) => {
-    try {
-        const log = new Stopwatch({
-            logEntry: req.body.logEntry,
-            memo: req.body.memo,
-            image: req.file ? req.file.filename : null
+router.post('/log', upload.single('image'), async (req, res) => {//파일 업로드를 위한 미들웨어 추가 
+    try {//요청으로 전달된 로그 데이터를 저장 
+        const log = new Stopwatch({//새로운 로그 생성
+            logEntry: req.body.logEntry,//로그 항목 저장 필드, 숫자(함수)
+            memo: req.body.memo,//메모 저장 필드 
+            image: req.file ? req.file.filename : null//이미지 저장 필드 
         });
-        await log.save();
-        res.json(log);
-    } catch (error) {
+        await log.save();//로그 저장 
+        res.json(log);//저장된 로그 반환
+    } catch (error) {//에러 발생시 서버에 에러가 있어요 메시지와 함께 어떤 에러인지 출력하기 
         res.status(500).json({ message: '서버에 에러가 있어요', error: error.message });
-    }
+    } //이미지 파일이 업로드되었을떄 이미지 파일명을 저장하고 이미지 파일이 없을때는 null값을 저장한다 
 });
 
 // 로그 업데이트 엔드포인트 (메모 업데이트)

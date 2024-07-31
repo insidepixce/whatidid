@@ -45,7 +45,7 @@ function deleteEntry(id) { //방명록 삭제 함수
     .then(data => { //삭제된 방명록을 반영한 방명록 목록 갱신 
         displayEntries();//방명록 목록 갱신
     })
-    .catch(error => console.error('Error:', error)); 
+    .catch(error => console.error('Error:', error)); //에러시 에러 메세지를 출력해줌 
 }
 
 displayEntries();// 페이지 로드 시 기존 방명록 목록 표시
