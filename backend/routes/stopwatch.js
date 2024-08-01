@@ -29,7 +29,7 @@ router.post('/log', upload.single('image'), async (req, res) => {//파일 업로
     } //이미지 파일이 업로드되었을떄 이미지 파일명을 저장하고 이미지 파일이 없을때는 null값을 저장한다 
 });
 
-// 로그 업데이트 엔드포인트 (메모 업데이트)
+//  로그 업데이트 엔드포인트 (메모 업데이트)
 router.put('/log/:id', async (req, res) => {//메모 업데이트 엔드포인트 
     console.log(`Updating memo for log ID: ${req.params.id} with memo: ${req.body.memo}`);//업데이트할 로그의 id와 업데이트할 메모를 콘솔에 출력해주기 
     try { //요청으로 전달된 id값을 가진 로그를 찾아 메모 업데이트 
