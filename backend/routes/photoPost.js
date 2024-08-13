@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
         res.status(201).send(photoPost);  //사진 게시물 변환
     } catch (error) { //에러 발생시 사진 게시물을 등록하는데 실패하였습니다 메시지와 함께 어떤 에러인지 출력하기 
         res.status(500).send({ error: '사진 게시물을 등록하는데 실패하였습니다 ' });
-    }
+    } //요약 : 사진 게시물 저장하고 저장된 사진 게시물 반환하는 코드 
 });
 
 //모든 사진 게시물들을 불러오는 코드 
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
         const photoPosts = await PhotoPost.find(); //모든 사진 게시물을 불러오기 
         res.send(photoPosts); //사진 게시물 변환
     } catch (error) { //에러 발생시 사진 게시물을 불러오는데 실패하였습니다 메시지와 함께 어떤 에러인지 출력하기 
-        res.status(500).send({ error: '사진 게시물을 불러오는데 실패하였습니다' }); 
+        res.status(500).send({ error: '사진 게시물을 불러오는데 실패하였습니다' }); //
     }
 });
 module.exports = router; 

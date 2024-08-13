@@ -73,6 +73,7 @@ router.delete('/log/:id', async (req, res) => {
     }
 });
 
+
 // 로그 조회 엔드포인트
 router.get('/log', async (req, res) => {
     try {

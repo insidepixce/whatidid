@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
     res.send(entries);
 });
 
+
 //특정 id의 게시물 가져오기 
 router.get('/:id', async (req, res) => {
     const entry = await Board.findById(req.params.id);
