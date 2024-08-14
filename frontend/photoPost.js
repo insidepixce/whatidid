@@ -7,7 +7,7 @@ document.getElementById('photoPostForm').addEventListener('submit', function(eve
     const reader = new FileReader();
     reader.onload = function(event) {
         fetch('/api/photoPost', {
-            method: 'POST',
+            method: 'POST',//
             headers: {
                 'Content-Type': 'application/json',
             },
