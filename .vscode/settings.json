@@ -1,0 +1,37 @@
+{
+    "workbench.colorTheme": "13adffd9-acbe-47af-8101-fa71269a4c5c",
+    "window.zoomLevel": 2,
+    "editor.fontSize": 10,
+    "editor.fontFamily": "Firacode,Menlo, Monaco, 'Courier New', monospace",
+    "git.autofetch": true,
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.layoutControl.enabled": false,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "background.enabled": true,
+    "background.style": {
+        "position": "absolute",
+        "z-index": "99999",
+        "width": "100%",
+        "height": "100%",
+        "background-position": "left",
+        "background-size": "cover",
+        "background-repeat": "no-repeat",
+        "opacity": 0.25
+    },
+    "background.fullscreen": {
+        "image": "https://ifh.cc/g/G0ob3R.jpg",
+        "opacity": 0.75,
+        "size": "cover",
+        "position": "center",
+        "interval": 0
+    },
+    "background.styles": [
+
+        {},
+        {},
+        {}
+    ]
+
+}
